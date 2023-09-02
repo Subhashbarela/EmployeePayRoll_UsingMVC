@@ -1,0 +1,29 @@
+﻿
+
+.pb-3 {
+    width: 500px;
+   
+}
+.Details_Main_Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   
+}
+
+.Details_Container {
+    text-align: center;
+    border: 2px solid white;
+    background-color: darkslategray;
+    color: white;
+    border-radius: 5px;
+   
+}
+
+    .Details_Container h4 {
+        border: 1px solid white;
+    }
+
+dt, dl {
+    color: white;
+}
+

@@ -1,0 +1,33 @@
+﻿body {
+}
+.create_profile-radio-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.C_ProfileImg {
+    width: 25px;
+    border-radius: 50%;
+    margin-right: 9px;
+}
+
+.create_main_content {   
+    border: 2px solid black;
+    background-color: darkslategray;
+    color: white;
+   
+}
+.create_container {   
+    border: 2px solid white;
+    color: white;
+    border-radius: 5px;
+}
+h4{
+    text-align:center;
+    margin-top:20px;
+}
+div > a{
+    color:beige;
+    font:bolder;
+    text-align:center;
+}

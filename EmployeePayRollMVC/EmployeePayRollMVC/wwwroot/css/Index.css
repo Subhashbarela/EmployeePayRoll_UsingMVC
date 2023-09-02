@@ -1,0 +1,17 @@
+﻿body{
+font-family:"Roboto",sans-serif;
+border:0px;
+margin:0;
+}
+
+.index_profile img{
+    width: 30px;
+    border-radius: 50%;
+}
+
+td{
+    color:white;
+}
+
+
+

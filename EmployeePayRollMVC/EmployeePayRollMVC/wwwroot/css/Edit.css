@@ -1,0 +1,28 @@
+﻿
+.edit_profile-radio-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.E_ProfileImg {
+    width: 25px;
+    border-radius: 50%;
+    margin-right: 9px;
+}
+
+.edit_main_content {
+    display: flex;
+    border: 2px solid black;
+    background-color: darkslategray;
+    color: white;
+    flex-direction: column;
+}
+
+.edit_container {
+    /*text-align: center;*/
+    border: 2px solid white;
+    /* background-color: darkslategray;*/
+    color: white;
+    border-radius: 5px;
+}
+

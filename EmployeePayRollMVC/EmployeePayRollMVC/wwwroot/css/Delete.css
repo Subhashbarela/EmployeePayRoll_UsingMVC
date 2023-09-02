@@ -1,0 +1,17 @@
+﻿Delete_Main_Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Delete_Container { 
+    text-align:center;
+    border: 2px solid white;
+    background-color: darkslategray;
+    color: white;
+    border-radius: 5px;
+}
+.Delete_Container h4{
+    border:1px solid white;
+}
+
