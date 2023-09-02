@@ -161,8 +161,42 @@ namespace RepositoryLayer.Service
                 cmd.ExecuteNonQuery();
                 con.Close();           
             
-        }      
-       
+        }
+        public Employee EmployeeLoginDetails(EmployeeLogin login)
+        {
+            SqlConnection con = new SqlConnection(this.Configuration.GetConnectionString("EmployeePayRoll"));
+            con.Open();
+            SqlCommand cmd = new SqlCommand("spEmployeeLogin", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@empLoginId", login.EmpLoginId);
+            cmd.Parameters.AddWithValue("@empLoginName", login.EmpLoginName);
+            var returnParameter = cmd.Parameters.Add("Result", SqlDbType.Int);
+            returnParameter.Direction = ParameterDirection.ReturnValue;
+
+            Employee employee = new Employee();
+            SqlDataReader dr = cmd.ExecuteReader();
+            var result = returnParameter.Value;
+
+            if (result != null && result.Equals(2))
+            {
+                throw new Exception("Invalid Employee Id And Name");
+            }
+
+            while (dr.Read())
+            {
+                employee.EmployeeId = Convert.ToInt32(dr["EmployeeId"]);
+                employee.EmployeeName = dr["EmployeeName"].ToString();
+                employee.ProfileImage = dr["ProfileImage"].ToString();
+                employee.Department = dr["Department"].ToString();
+                employee.Gender = dr["Gender"].ToString();
+                employee.Salary = Convert.ToInt64(dr["Salary"]);
+                employee.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                employee.Notes = dr["Notes"].ToString();
+            }
+
+            return employee;
+        }
+
 
     }
 }

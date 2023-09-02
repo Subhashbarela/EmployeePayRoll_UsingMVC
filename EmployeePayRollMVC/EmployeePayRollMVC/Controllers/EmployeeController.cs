@@ -21,8 +21,8 @@ namespace EmployeePayRollMVC.Controllers
         {
             List<Employee> lstEmployee = new List<Employee>();
             lstEmployee = employeeBL.GetAllEmployees().ToList();
-           
-            return View(lstEmployee);           
+
+            return View(lstEmployee);
 
         }
         [HttpGet]
@@ -79,19 +79,28 @@ namespace EmployeePayRollMVC.Controllers
 
         // Get Details from database
         [HttpGet]
-        public IActionResult Details(int? id)
+        public IActionResult Details()
         {
-            if (id == null)
+            var empId = (int)HttpContext.Session.GetInt32("EmployeeId");
+            string empName = HttpContext.Session.GetString("EmployeeName");
+            if (empId != 0 && empName != null)
             {
-                return NotFound();
+                if (empId == 8 && empName == "Subhash")
+                {
+                    return RedirectToAction("Index");
+                }
+                Employee employee = employeeBL.GetEmployeeData(empId);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                return View(employee);
             }
-            Employee employee = employeeBL.GetEmployeeData(id);
+            else
+            {
+                return RedirectToAction("Login");
+            }
 
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            return View(employee);
         }
         // Delete the Data From Database
 
@@ -102,7 +111,10 @@ namespace EmployeePayRollMVC.Controllers
             {
                 return NotFound();
             }
-           
+            //var empId = (int)HttpContext.Session.GetInt32("EmployeeId");
+            //var empName = HttpContext.Session.GetString("EmployeeName");
+            //if (empId != 0 && empName != null)
+            //{
             Employee employee = employeeBL.GetEmployeeData(id);
 
             if (employee == null)
@@ -111,7 +123,8 @@ namespace EmployeePayRollMVC.Controllers
             }
             return View(employee);
         }
-        //return RedirectToAction("Delete");   
+        //return RedirectToAction("Delete");
+
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -120,7 +133,29 @@ namespace EmployeePayRollMVC.Controllers
             employeeBL.DeleteEmployee(id);
             return RedirectToAction("Index");
         }
-       
-      
+        [HttpGet]
+        //[Route("Employee/InsertEmpRecords")].... ( Attributs Route)we can change Url address for access 
+        public IActionResult Login()
+        {
+            var loginVar = new EmployeeLogin();
+            return View(loginVar);
+        }
+        [HttpPost]
+        public IActionResult Login([Bind] EmployeeLogin login)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = employeeBL.EmployeeLoginDetails(login);
+                if (result != null)
+                {
+                    HttpContext.Session.SetInt32("EmployeeId", result.EmployeeId);
+                    HttpContext.Session.SetString("EmployeeName", result.EmployeeName);
+
+                    return RedirectToAction("Details");
+                }
+                return View(login);
+            }
+            return View(login);
+        }
     }
 }

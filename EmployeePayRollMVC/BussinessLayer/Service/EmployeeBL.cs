@@ -38,10 +38,10 @@ namespace BussinessLayer.Service
         {
             return this.iRepo.GetEmployeeData(empid);
         }
-        //public Employee EmployeeLoginDetails(EmployeeLogin login)
-        //{
-        //    return this.iRepo.EmployeeLoginDetails(login);
-        //}
+        public Employee EmployeeLoginDetails(EmployeeLogin login)
+        {
+            return this.iRepo.EmployeeLoginDetails(login);
+        }
 
     }
 }

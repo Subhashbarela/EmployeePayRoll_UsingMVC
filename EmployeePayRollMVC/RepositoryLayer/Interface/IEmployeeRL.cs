@@ -13,7 +13,6 @@ namespace RepositoryLayer.Interface
         public void UpdateEmployee(Employee emp);
         public Employee GetEmployeeData(int? empid);
         public void DeleteEmployee(int? empid);
-
-       // public Employee EmployeeLoginDetails(EmployeeLogin login);
+        public Employee EmployeeLoginDetails(EmployeeLogin login);
     }
 }
