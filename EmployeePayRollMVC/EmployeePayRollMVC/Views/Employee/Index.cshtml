@@ -5,9 +5,10 @@
 }
 <link rel="stylesheet" href="~/css/Index.css" />
 
-<h1 class="Form_title">Index</h1>
+
 
 <p>
+    <h1 class="Form_title">Index</h1>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -19,7 +20,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeName)
             </th>
-            <th>               
+            <th>
                 @Html.DisplayNameFor(model => model.ProfileImage)
             </th>
             <th>
@@ -41,38 +42,39 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeName)
-            </td>
-            <td class="index_profile ">
-                  <img src="@Url.Content(item.ProfileImage)" />               
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.EmployeeId }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.EmployeeId }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td class="index_profile ">
+                    <img src="@Url.Content(item.ProfileImage)" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.EmployeeId }) |
+                    @Html.ActionLink("Details", "Details", new {  id=item.EmployeeId }) |
+                    @Html.ActionLink("Delete", "Delete", new {  id=item.EmployeeId })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

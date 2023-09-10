@@ -1,0 +1,27 @@
+﻿@model CommonLayer.Model.Employee
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>EmployeeId</th>
+            <th>EmployeeName</th>
+            <th>ProfileImage</th>
+            <th>Department</th>
+            <th>Gender</th>
+            <th>Salary</th>
+            <th>StartDate</th>
+            <th>Notes</th>
+            <th>Operation</th>
+        </tr>
+    </thead>
+   <tbody class="text-center" id="table_data"></tbody>
+</table>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/Custom.js"></script>
+
+

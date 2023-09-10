@@ -15,73 +15,80 @@ namespace RepositoryLayer.Service
         public EmployeeRepository(IConfiguration Configuration)
         {
             this.Configuration = Configuration;
-        }      
-  
+        }
+
         // Get All Employee Data from Daatabase
         public IEnumerable<Employee> GetAllEmployees()
         {
-            List<Employee> lstemployee = new List<Employee>();
+            try
+            {
+                List<Employee> lstemployee = new List<Employee>();
 
-            SqlConnection con = new SqlConnection(this.Configuration.GetConnectionString("EmployeePayRoll"));            
+                SqlConnection con = new SqlConnection(this.Configuration.GetConnectionString("EmployeePayRoll"));
                 con.Open();
-                
-                    SqlCommand cmd = new SqlCommand("spGetAllEmployees", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    SqlDataReader dr = cmd.ExecuteReader();
+                SqlCommand cmd = new SqlCommand("spGetAllEmployees", con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    while (dr.Read())
-                    {
-                        Employee employee = new Employee();
-                        //  Console.WriteLine("Emp_Name : " + dr.GetValue(0).ToString());
-                        employee.EmployeeId = Convert.ToInt32(dr["EmployeeID"]);
-                        employee.EmployeeName = dr["EmployeeName"].ToString();
-                        employee.ProfileImage = dr["ProfileImage"].ToString();
-                        employee.Department = dr["Department"].ToString();
-                        employee.Gender = dr["Gender"].ToString();
-                        employee.Salary = Convert.ToInt64(dr["Salary"]);
-                        employee.StartDate = Convert.ToDateTime(dr["StartDate"]);
-                        employee.Notes = dr["Notes"].ToString();
+                SqlDataReader dr = cmd.ExecuteReader();
 
-                        lstemployee.Add(employee);
-                    }              
-                
-                   con.Close();                
-            
-            return lstemployee;
+                while (dr.Read())
+                {
+                    Employee employee = new Employee();
+                    //  Console.WriteLine("Emp_Name : " + dr.GetValue(0).ToString());
+                    employee.EmployeeId = Convert.ToInt32(dr["EmployeeID"]);
+                    employee.EmployeeName = dr["EmployeeName"].ToString();
+                    employee.ProfileImage = dr["ProfileImage"].ToString();
+                    employee.Department = dr["Department"].ToString();
+                    employee.Gender = dr["Gender"].ToString();
+                    employee.Salary = Convert.ToInt64(dr["Salary"]);
+                    employee.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                    employee.Notes = dr["Notes"].ToString();
+
+                    lstemployee.Add(employee);
+                }
+
+                con.Close();
+
+                return lstemployee;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         //To Add new employee record    
         public Employee AddEmployee(Employee employee)
         {
-            SqlConnection con = new SqlConnection(this.Configuration.GetConnectionString("EmployeePayRoll")) ;
-            
-                
-                try
-                {
-                    SqlCommand cmd = new SqlCommand("spAddEmployee", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@EmployeeName", employee.EmployeeName);
-                    cmd.Parameters.AddWithValue("@ProfileImage", employee.ProfileImage);
-                    cmd.Parameters.AddWithValue("@Department", employee.Department);
-                    cmd.Parameters.AddWithValue("@Gender", employee.Gender);
-                    cmd.Parameters.AddWithValue("@Salary", employee.Salary);
-                    cmd.Parameters.AddWithValue("@StartDate", employee.StartDate);
-                    cmd.Parameters.AddWithValue("@Notes", employee.Notes);
+            SqlConnection con = new SqlConnection(this.Configuration.GetConnectionString("EmployeePayRoll"));
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();                   
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    con.Close();
-                }
-                return employee;
 
-            
+            try
+            {
+                SqlCommand cmd = new SqlCommand("spAddEmployee", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EmployeeName", employee.EmployeeName);
+                cmd.Parameters.AddWithValue("@ProfileImage", employee.ProfileImage);
+                cmd.Parameters.AddWithValue("@Department", employee.Department);
+                cmd.Parameters.AddWithValue("@Gender", employee.Gender);
+                cmd.Parameters.AddWithValue("@Salary", employee.Salary);
+                cmd.Parameters.AddWithValue("@StartDate", employee.StartDate);
+                cmd.Parameters.AddWithValue("@Notes", employee.Notes);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return employee;
+
+
         }
         //To Update the records of a particluar employee    
         public void UpdateEmployee(Employee emp)
@@ -112,7 +119,7 @@ namespace RepositoryLayer.Service
             {
                 con.Close();
             }
-                     
+
 
         }
         //Get the details of a particular employee    
@@ -124,7 +131,7 @@ namespace RepositoryLayer.Service
             {
 
                 con.Open();
-              
+
                 string sqlQuery = "SELECT * FROM Employee WHERE EmployeeID= " + empid;
                 SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -141,61 +148,79 @@ namespace RepositoryLayer.Service
                     employee.StartDate = Convert.ToDateTime(dr["StartDate"]);
                     employee.Notes = dr["Notes"].ToString();
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
-            
+
             return employee;
         }
         //To Delete the record on a particular employee    
         public void DeleteEmployee(int? empid)
         {
+
             SqlConnection con = new SqlConnection(this.Configuration.GetConnectionString("EmployeePayRoll"));
-            
+            try
+            {
                 SqlCommand cmd = new SqlCommand("spDeleteEmployee", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@EmployeeId", empid);
                 con.Open();
                 cmd.ExecuteNonQuery();
-                con.Close();           
-            
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
         }
         public Employee EmployeeLoginDetails(EmployeeLogin login)
         {
             SqlConnection con = new SqlConnection(this.Configuration.GetConnectionString("EmployeePayRoll"));
-            con.Open();
-            SqlCommand cmd = new SqlCommand("spEmployeeLogin", con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@empLoginId", login.EmpLoginId);
-            cmd.Parameters.AddWithValue("@empLoginName", login.EmpLoginName);
-            var returnParameter = cmd.Parameters.Add("Result", SqlDbType.Int);
-            returnParameter.Direction = ParameterDirection.ReturnValue;
 
-            Employee employee = new Employee();
-            SqlDataReader dr = cmd.ExecuteReader();
-            var result = returnParameter.Value;
-
-            if (result != null && result.Equals(2))
+            try
             {
-                throw new Exception("Invalid Employee Id And Name");
-            }
+                con.Open();
+                SqlCommand cmd = new SqlCommand("spEmployeeLogin", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@empLoginId", login.EmpLoginId);
+                cmd.Parameters.AddWithValue("@empLoginName", login.EmpLoginName);
+                var returnParameter = cmd.Parameters.Add("Result", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
 
-            while (dr.Read())
+                Employee employee = new Employee();
+                SqlDataReader dr = cmd.ExecuteReader();
+                var result = returnParameter.Value;
+
+                if (result != null && result.Equals(2))
+                {
+                    throw new Exception("Invalid Employee Id And Name");
+                }
+
+                while (dr.Read())
+                {
+                    employee.EmployeeId = Convert.ToInt32(dr["EmployeeId"]);
+                    employee.EmployeeName = dr["EmployeeName"].ToString();
+                    employee.ProfileImage = dr["ProfileImage"].ToString();
+                    employee.Department = dr["Department"].ToString();
+                    employee.Gender = dr["Gender"].ToString();
+                    employee.Salary = Convert.ToInt64(dr["Salary"]);
+                    employee.StartDate = Convert.ToDateTime(dr["StartDate"]);
+                    employee.Notes = dr["Notes"].ToString();
+                }
+
+                return employee;
+            }
+            catch (Exception ex)
             {
-                employee.EmployeeId = Convert.ToInt32(dr["EmployeeId"]);
-                employee.EmployeeName = dr["EmployeeName"].ToString();
-                employee.ProfileImage = dr["ProfileImage"].ToString();
-                employee.Department = dr["Department"].ToString();
-                employee.Gender = dr["Gender"].ToString();
-                employee.Salary = Convert.ToInt64(dr["Salary"]);
-                employee.StartDate = Convert.ToDateTime(dr["StartDate"]);
-                employee.Notes = dr["Notes"].ToString();
+                throw ex;
             }
-
-            return employee;
         }
+
 
 
     }

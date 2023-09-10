@@ -1,4 +1,7 @@
-﻿
+﻿.container {
+    display: flex;
+    justify-content: center;
+}
 
 .pb-3 {
     width: 500px;

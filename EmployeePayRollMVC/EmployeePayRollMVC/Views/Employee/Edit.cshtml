@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <input asp-for="EmployeeId" class="form-control" />
+                <input asp-for="EmployeeId" class="form-control"  readonly/>
                 <span asp-validation-for="EmployeeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,16 +25,16 @@
             <div class="form-group edit_profile-radio-content">
                 <label asp-for="ProfileImage" class="control-label"></label>
                 @*<input asp-for="ProfileImage" class="form-control" />*@
-                <div class=" profile  ">
-                    @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/profile1.png")
-                    <img class="E_ProfileImg" src="/Assets/profile1.png" />
-                    @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/profile2.png")
-                    <img class="E_ProfileImg" src="/Assets/profile2.png" />
-                    @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/profile3.png")
-                    <img class="E_ProfileImg" src="/Assets/profile3.png" />
-                    @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/profile4.png")
-                    <img class="E_ProfileImg" src="/Assets/profile4.png" />
-                </div>
+                    <div class=" profile  ">
+                        @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/male1.png")
+                        <img class="C_ProfileImg" src="/Assets/male1.png" />
+                        @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/female1.png")
+                        <img class="C_ProfileImg" src="/Assets/female1.png" />
+                        @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/male2.png")
+                        <img class="C_ProfileImg" src="/Assets/male2.png" />
+                        @Html.RadioButtonFor(model => model.ProfileImage,"/Assets/female2.png")
+                        <img class="C_ProfileImg" src="/Assets/female2.png" />
+                    </div>
                 <span asp-validation-for="ProfileImage" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -65,7 +65,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                    <input asp-for="StartDate" class="form-control joiningDate" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -87,3 +87,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script src="~/js/validate.js"></script>
